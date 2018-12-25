@@ -2,9 +2,10 @@ const readDividends = require('./readDividends');
 const readQuotes = require('./readQuotes');
 const _ = require('lodash')
 
+const NAMES = {}
 class Stock {
-  constructor(name, code) {
-    this.name = name;
+  constructor(code) {
+    this.name = NAMES[code];
     this.code = code;
     this.data = [];
   }
@@ -19,6 +20,32 @@ class Stock {
       const dividend = dividends.find(d => d.date.getTime() === quote.date.getTime());
       quote.dividend = dividend ? dividend.dividend : 0
     })
+  }
+
+  async growthRatePerYear(fromDate, toDate = new Date()) {
+    await this.fetchData()
+    let firstValue
+    let lastValue
+    this.data.forEach((data) => {
+      if (data.date >= fromDate && data.date <= toDate) {
+        firstValue = firstValue || data.adjClose;
+        lastValue = data.adjClose
+      }
+    })
+    return lastValue / firstValue
+  }
+
+  async growthRate(fromDate, toDate = new Date()) {
+    await this.fetchData()
+    let firstValue
+    let lastValue
+    this.data.forEach((data) => {
+      if (data.date >= fromDate && data.date <= toDate) {
+        firstValue = firstValue || data.adjClose;
+        lastValue = data.adjClose
+      }
+    })
+    return lastValue / firstValue
   }
 
   async earning(fromDate, toDate = new Date()) {

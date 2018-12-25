@@ -1,8 +1,6 @@
 const csv = require('csv-parser')
 const fs = require('fs')
 const _  = require('lodash')
-const results = [];
-
 
 /**
  * Returns the quotes in a sorted array of values

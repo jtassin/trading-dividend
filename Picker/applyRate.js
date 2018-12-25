@@ -1,0 +1,3 @@
+function applyRate(stock) {
+
+}
